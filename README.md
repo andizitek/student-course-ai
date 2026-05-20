@@ -104,7 +104,7 @@ courses\demo_course\topic_map.json
 z.B. C:\Users\andre\student-course-ai
 
 ### 2. Projektdateien herunterladen
-Projektdateien herunterladen und in den Projektordner entzippen  
+Projektdateien herunterladen und in den Projektordner entzippen (oben auf Code gehen, Download ZIP auswählen und alle Dateien herunterladen)  
 
 ### 3. Python installieren 
 Herunterladen von https://www.python.org/downloads (getestet wurde mit Python 3.11, und Python 3.13) und installieren 
