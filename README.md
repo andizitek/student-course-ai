@@ -109,17 +109,18 @@ z.B. C:\Users\andre\student-course-ai
 Projektdateien herunterladen und in den Projektordner entzippen (oben auf Code gehen, Download ZIP auswählen und alle Dateien herunterladen)  
 
 ### 3. Python installieren 
-Herunterladen von https://www.python.org/downloads (getestet wurde mit Python 3.11, und Python 3.13) und installieren 
+Herunterladen von https://www.python.org/downloads (getestet wurde mit Python 3.11, und Python 3.13) und installieren
 
 ### 4. Ollama installieren (https://ollama.com)
 Ollama herunterladen und installieren  
 
 ### 5. Virtuelle Umgebung anlegen
-Nur falls noch keine `.venv` vorhanden ist, im Eingabefenster z. B. mit `cd C:\Users\andre\student-course-ai` in den Projektordner wechseln und `py -3.11 -m venv .venv` (oder mit Python 3.13 - damit wurde das Modell erfolgreich getestet) eingeben  
+Nur falls noch keine `.venv` vorhanden ist, im Eingabefenster ((mit Windows "R" Taste und "cmd" das Eingabefenster öffnen) z. B. mit `cd C:\Users\andre\student-course-ai` in den Projektordner wechseln und `py -3.11 -m venv .venv` (oder mit Python 3.13 - damit wurde das Modell erfolgreich getestet) eingeben  
 
 ### 5. Abhängigkeiten installieren
-.venv\Scripts\python.exe -m pip install --upgrade pip     
-.venv\Scripts\pip.exe install -r requirements.txt  
+Falls noch kein Eingabefenster offen ist, mit Windows "R" Taste und "cmd" das Eingabefenster öffnen  
+`.venv\Scripts\python.exe -m pip install --upgrade pip`     
+`.venv\Scripts\pip.exe install -r requirements.txt`  
 
 ### 6. Modelle herunterladen (von https://ollama.com/library/)
 Beispiel:  
@@ -141,12 +142,12 @@ Falls nötig starten:
 
 ### 8. Original-PDFs ablegen
 In:  
-text. 
-courses\demo_course\source_pdfs\
+`courses\demo_course\source_pdfs\`
 
 ### 9. `metadata.csv` ergänzen
-Datei:
-courses\demo_course\metadata.csv
+IN: `courses\demo_course\metadata.csv`  
+Metadaten werden beim Tool-spezifischen Ablauf der Markdown-files automatisch in den Header geschrieben. Wichtig: Filename und Eintrag im Metadatenfile müssen eindeutig übereinstimmen (inkl. Filetyp-Endung))  
+
 
 ### 10. PDFs in Markdown umwandeln
 `.venv\Scripts\python.exe scripts\pdfs_to_md_with_metadata.py`
@@ -178,17 +179,46 @@ Vor dem Indexieren kann kurz geprüft werden, ob eine Markdown-Datei als gute Gr
 #### Faustregel
 Wenn mehrere Fragen mit **Nein** beantwortet werden, sollte die Datei vor dem Indexieren noch bereinigt oder in kleinere, klarere Einheiten aufgeteilt werden.
 
-### 10. Zusätzliche Materialien ergänzen
+### 12. Zusätzliche Materialien ergänzen
 Inhaltliche Materialien als  .md-Dateien nach:
-courses\demo_course\materials\
+`courses\demo_course\materials\`
 
 Reflexions-/Critical-Dateien nach:
-courses\demo_course\critical\
+`courses\demo_course\critical\`
 
-### 12. Index bauen
+### 13. Index bauen
+Index in einem weiteren Eingabefenster bauen (**WICHTIG: Ollama muss in einem anderen Eingabfenster gestartet worden sein laufen - kann mit Ollama list** gestest werden **UND** das **richtige Sprachmodell muss in `config.yaml`** eingetragen sein, man kann auch die Chunking Parameter anpassen, siehe mehr Informationen unten im Text).  
+
 `set PYTHONPATH=.`
 
 `.venv\Scripts\python.exe scripts\build_index.py --course demo_course`  
+
+**WICHTIG: die Markdown-Dateien MÜSSEN bereinigt sein!**
+
+***Hinweis: Woran erkennt man ein gutes Markdown-Dokument für den Index?***
+Nicht jede aus einem PDF erzeugte `.md`-Datei ist automatisch gut für Retrieval und Embeddings geeignet. Für einen stabilen lokalen Index ist es hilfreich, die Markdown-Dateien vor dem Einlesen grob zu prüfen und bei Bedarf zu bereinigen.
+
+Das PDF bleibt weiterhin als Originalquelle wichtig. Für die inhaltliche Verarbeitung im Index ist jedoch die Qualität der Markdown-Datei entscheidend.
+***Erhalten sollten für den späteren Verweis auf die richtigen Seiten im pdf z.B. folgende Seitenangaben bleiben:***
+    `<!-- PAGE:4 -->` bzw. `### Seite 4`
+
+***Ein gutes Markdown-Dokument für den Index hat in der Regel folgende Eigenschaften:***
+     - der **eigentliche Fachtext** steht im Vordergrund
+     - **Kopf- und Fußzeilen** aus dem PDF wiederholen sich nicht ständig
+     - es gibt möglichst wenig **Layout-Artefakte** wie Hefttitel, Download-Hinweise oder Seitennummern mitten im Text
+     - **Worttrennungen** aus dem PDF wurden möglichst bereinigt
+     - Überschriften und Abschnitte sind **klar strukturiert**
+     - unnötige Blöcke wie lange Verlagshinweise oder irrelevante Metadaten wurden entfernt 
+ 
+***Problematisch für den Index sind vor allem Dateien mit***:
+     - wiederholten Zeitschriften- oder PDF-Kopfzeilen 
+     - vielen Seitenmarkierungen mitten im Fließtext
+     - abgeschnittenen oder künstlich getrennten Wörtern
+     - langen bibliografischen Blöcken ohne Relevanz für die spätere Nutzung
+     - stark vermischtem Layouttext statt zusammenhängendem Inhalt
+
+Für gute Retrieval-Ergebnisse gilt daher:       
+***Lieber ein leicht bereinigtes, gut lesbares Markdown-Dokument als eine rohe 1:1-Extraktion aus dem PDF.***
 
 Beim Index bauen geschieht das sog. **"Chunking"**, ist für die Qualität des Retrievals ist das zentral. Die in Einheiten zerlegten längerne Texte werde dabei eingebettet und in der Vektordatenbank gespeichert. Relevante Parameter sind insbesondere **chunk_size**, **chunk_overlap** und **top_k**. Diese Parameter sind in der ***config.yaml*** auf Ebene des Kurses definiert (chunk_size: standarddmäßig auf 1200, chunk_overlap: standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort): standardmäßig auf 4). Diese können je nach Material und "Auflösungstiefe" der Materialien angepasst werden. Zu große Chunks können die Suche unpräzise machen, zu kleine Chunks wichtige Zusammenhänge zerstören. Praktisch verbessert eine vorgängige Bereinigung der Materialien, etwa durch PDF-zu-Markdown-Konvertierung und das Anpassen der Markdown-Dateien hinsichtlich störender Fragmente, die Qualität der Ergebnisse deutlich.
 
@@ -198,19 +228,19 @@ Die App nutzt für Retrieval und Antwortgenerierung die aus PDFs erzeugten Markd
 
 #### ACHTUNG: wenn das embedding_model: mxbai-embed-large mehrmals heruntergeladen wurde, muss in der .yaml Datei mxbai-embed-large:latest verwendet werden. Die aktuelle Version kann mit dem Befehl: ollama list herausgelesen werden.
 
-### 13. Backend starten (erstes Eingabefenster - Windows-Taste und "R", dann cmd eintippen)
+### 14. Backend starten (erstes Eingabefenster - Windows-Taste und "R", dann cmd eintippen)
 Erstes Fenster öffen  
 
 `cd C:\Users\andre\student-course-ai`  
 `.venv\Scripts\python.exe -m uvicorn app.main:app --reload`
 
-### 14. Streamlit starten (zweites Eingabefenster, wiede Windows-Taste und "R", dann cmd eintippen)
+### 15. Streamlit starten (zweites Eingabefenster, wiede Windows-Taste und "R", dann cmd eintippen)
 In einem zweiten Fenster:
 
 `cd C:\Users\andre\student-course-ai`   
 `.venv\Scripts\python.exe -m streamlit run app\ui\streamlit_app.py`
 
-### 15. App im Browser öffnen
+### 16. App im Browser öffnen
 `http://localhost:8501`
 
 ## Wann muss was neu gestartet werden 
