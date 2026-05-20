@@ -72,7 +72,7 @@ courses\demo_course\critical\
 ### Metadaten
 courses\demo_course\metadata.csv
 
-### Konfiguration
+### Konfiguration für Modellparameter
 courses\demo_course\config.yaml
 ### Systemprompt
 courses\demo_course\system_prompt.md
