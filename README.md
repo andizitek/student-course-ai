@@ -3,21 +3,29 @@ Ein lokaler RAG-basierter KI-Chatbot als datenschutzfreundliche Lernumgebung fü
 
 Das Projekt verbindet lokale LLM-Nutzung, kursbezogene Materialerschließung mittels RAG-System, didaktische Interaktionsmodi und einfache Learning Analytics zu einer datenschutzfreundlichen Lernumgebung für Studium und Lehre. Als Erweiterung wird die Möglichkeit eines fachspezifischen Finetunings eines Mistral-Modells vorgestellt.
 
-**Praktische Einrichtung.**  
-Zuerst alle Ordner herunterladen (oben auf Code gehen, Download ZIP auswählen und alle Dateien herunterladen. Danach lokal unter Benutzer entzippen). Danach die App-files in einen Ordner mit dem Namen student-course-ai kopieren.  
-Danach können bereits materalien in **source_pdfs** oder Markdown-Dateien direkt in **materials** gelegt werden.  
-Nach Installation von Python (https://www.python.org/downloads), Ollama (mit Kommando in Eingebafenster, s.u.) und den Projektabhängigkeiten werden lokale Modelle geladen.  
-Anschließend werden die Original-PDFs aus dem Quellordner über eine Metadaten-Datei (**metadata.csv**) und in Markdown überführt. Zusätzliche fachliche und reflexive Materialien können in eigenen Ordnern ergänzt werden.  
-Danach werden die Materialien gechunkt, eingebettet und in einer Vektordatenbank indexiert.  
-Erst auf dieser Grundlage werden Backend und Benutzeroberfläche gestartet und für unterschiedliche Modi nutzbar gemacht. Weiter unten findet sich der typische Workflow in Einzelschritten abgebildet.
+## Praktische Einrichtung - Kurzbeschreibung (Details weiter unten)
+1. Zuerst alle Ordner herunterladen (oben auf Code gehen, Download ZIP auswählen und alle Dateien herunterladen. Danach lokal unter Benutzer entzippen).
+2. Danach die App-files in einen Ordner mit dem Namen student-course-ai kopieren.  
+5. Danach Installation von Python 3.11 oder 3.13 (getestet, https://www.python.org/downloads)
+6. Danach Intallation von Ollama (mit Kommando in Eingabefenster, s.u.) 
+7. Danach Installation der Projektabhängigkeiten
+8. Danach können Materalien in **source_pdfs** oder Markdown-Dateien direkt in **materials** gelegt werden.
+9. Zusätzlich können die Files für die spätere Überführung in das Rag in der **metadata.csv-Datei** beschrieben werden
+10. Anschließend werden die Original-PDFs aus dem Quellordner über eine Metadaten-Datei (**metadata.csv**) und in Markdown überführt. Zusätzliche fachliche und reflexive Materialien können in eigenen Ordnern ergänzt werden.  
+11. Danach werden die Materialien gechunkt, eingebettet und in einer Vektordatenbank indexiert (**build index**).
+12. Erst auf dieser Grundlage werden Backend und Benutzeroberfläche gestartet und für unterschiedliche Modi nutzbar gemacht. Weiter unten findet sich der typische Workflow in Einzelschritten abgebildet.
+
 **Strukturelle Gliederung.**
 Die Materialien der App sind in mehrere Bereiche gegliedert: Originalquellen liegen in einem PDF-Ordner vor, fachliche Kursmaterialien werden in einem Materialordner als Markdown aufbereitet, und zusätzliche Reflexions- und Orientierungstexte können in einem eigenen Critical-Ordner hinterlegt werden. Ergänzt wird dies durch Konfigurations-, Prompt- und Metadatendateien. Die App arbeitet mit verschiedenen Modi, die von Erklärung, Zusammenfassung und Quiz über Gruppenarbeit und Peer-Review bis hin zu kritischer KI-Reflexion und der Strukturierung kollaborativer Arbeitsprozesse reichen.
+
+**Hinweise zur Installation und dem Start des Modells**
+Zuerst werden, wie beschrieben, die Ordner und die notwendigen Dateien installiert. Die Installation der notwendigen Dateien und Modelle erfolgt im Eingabefenster (Windows-Taste und "R", dann cmd, dann in den Ordner des Chatbots wechseln, und die weiteren Befehle ausführen). **Wichtig**: Ollama muss laufen, mit dem ***ollama serve*** Befehl im Eingabefenster starten. Nach der Installation werden einerseits das Backend und die Applikation in jeweils einem eigenen Eingabefenster gestartet, dadurch öffnet sich im Browser normalerweise direkt das User Interface (Streamlit). Wenn man etwas ändern möchte bzw. geändert hat, dann kann man mit der ***Strg.-Taste und "C"*** im Eingabefenster den laufenden Prozess unterbrechen, und wieder neu starten. Alles weitere findet sich in der untenstehenden Anleitung.
+    
 ## Voraussetzungen RAM und VRAM
 Arbeitsspeicher (RAM) und Grafikspeicher (VRAM) sind getrennte Ressourcen. Für funktionale lokale Modelle kann ein Rechner mit **16 -32 GB RAM** auch ohne starke GPU ausreichen, dann allerdings oft mit längeren Antwortzeiten. Wenn eine dedizierte GPU genutzt wird, sind etwa **6–8 GB VRAM** ein brauchbarer Einstieg, während **10–12 GB** oder mehr das Arbeiten mit größeren Modellen deutlich erleichtern. Das Modell ***mistral-nemo:12b*** funktionierte mit **32 GB RAM und 12 GB VRAM** auch für MC-Quizzes schnell und sprachlich qualitativ gut. ***Mehr darüber, welche Optionen es mit Mistral für lokale Anwendungen gibt, finden sich hier: https://getdeploying.com/guides/local-mistral.***
+
 ## Benötigter lokaler Speicherplatz
 Neben RAM und gegebenenfalls VRAM ist auch ausreichender freier Speicherplatz erforderlich. Als grobe Untergrenze erscheinen etwa 15-30 GB sinnvoll; bei mehreren lokalen Modellen, umfangreicheren Materialsammlungen oder mehreren Kursindizes können mehr als 30 GB notwendig sein.
-## Allgemeines zu Installation und Start des Modells
-Zuerst werden die Ordner und die notwendigen Dateien installiert. Die Installation der notwendigen Dateien und Modelle erfolgt im Eingabefenster (Windows-Taste und "R", dann cmd, dann in den Ordner des Chatbots wechseln, und die weiteren Befehle ausführen). **Wichtig**: Ollama muss laufen, mit dem ***ollama serve*** Befehl im Eingabefenster starten. Nach der Installation werden einerseits das Backend und die Applikation in jeweils einem eigenen Eingabefenster gestartet, dadurch öffnet sich im Browser normalerweise direkt das User Interface (Streamlit). Wenn man etwas ändern möchte bzw. geändert hat, dann kann man mit der ***Strg.-Taste und "C"*** im Eingabefenster den laufenden Prozess unterbrechen, und wieder neu starten. Alles weitere findet sich in der untenstehenden Anleitung.
 
 ## Projektstruktur
 ```text
@@ -89,105 +97,67 @@ courses\demo_course\topic_map.json
 | `critical_ai_literacy` | Unterstützt die kritische Prüfung von KI-Antworten und Materialien.                                         |
 | `collaborative_work`   | Unterstützt die Strukturierung gemeinsamer Arbeitsprozesse, z. B. Rollen, Teilaufgaben und Zusammenführung. |
 
-## Typischer Workflow
 
-1. Projektordner anlegen (z.B. C:\Users\andre\student-course-ai)
-2. Python (3.11 bis 3.13) und die vorausgesetzten files (in requirements.text) installieren (mit Windows "R" Taste und "cmd" das Eingabefenster öffnen)
-3. Virtuelle Umgebung anlegen - im Eingabefenster z. B. mit `cd C:\Users\andre\student-course-ai` in den Projektordner wechseln und `py -3.11 -m venv .venv` eingeben
-4. Abhängigkeiten installieren mit `.venv\Scripts\python.exe -m pip install --upgrade pip` und `.venv\Scripts\pip.exe install -r requirements.txt`.
-5. Modelle herunterladen (von https://ollama.com/library/) - z.B mit `ollama pull gemma3:4b` im Eingabefenster.
-6. Ollama prüfen mit `ollama list` bzw. starten mit `ollama serve` in einem Eingabefenster. 
-7. PDFs nach `source_pdfs/` legen
-8. `metadata.csv` ergänzen (Metadaten werden beim Tool-spezifischen Ablauf der Markdown-files automatisch in den Header geschrieben. Wichtig: Filename und Eintrag im Metadatenfile müssen eindeutig übereinstimmen (inkl. Filetyp-Endung))
-9. PDFs in Markdown überführen - mit `.venv\Scripts\python.exe scripts\pdfs_to_md_with_metadata.py` oder alternativ mit MaritDown (siehe unten).
-10. Materialien in `materials/` und ggf. `critical/` ablegen
-11. Index in einem weiteren Eingabefenster bauen (**WICHTIG: Ollama muss in einem anderen Eingabfenster gestartet worden sein laufen - kann mit Ollama list** gestest werden **UND** das **richtige Sprachmodell muss in `config.yaml`** eingetragen sein), man kann auch die Chunking Parameter anpassen) mit `set PYTHONPATH=.` und `.venv\Scripts\python.exe scripts\build_index.py --course demo_course`. **WICHTIG: die Markdown-Dateien MÜSSEN bereinigt sein!**
+##  Workflow der Installation und des Betriebs mit Befehlen
 
-    ***Hinweis: Woran erkennt man ein gutes Markdown-Dokument für den Index?
-    Nicht jede aus einem PDF erzeugte `.md`-Datei ist automatisch gut für Retrieval und Embeddings geeignet. Für einen stabilen lokalen Index ist es hilfreich, die Markdown-Dateien vor dem Einlesen grob zu prüfen und bei Bedarf zu    bereinigen.
-   Ein gutes Markdown-Dokument für den Index hat in der Regel folgende Eigenschaften:***
+### 1. Projektordner anlegen
+z.B. C:\Users\andre\student-course-ai
 
-     - der **eigentliche Fachtext** steht im Vordergrund
-     - **Kopf- und Fußzeilen** aus dem PDF wiederholen sich nicht ständig
-     - es gibt möglichst wenig **Layout-Artefakte** wie Hefttitel, Download-Hinweise oder Seitennummern mitten im Text
-     - **Worttrennungen** aus dem PDF wurden möglichst bereinigt
-     - Überschriften und Abschnitte sind **klar strukturiert**
-     - unnötige Blöcke wie lange Verlagshinweise oder irrelevante Metadaten wurden entfernt 
-   Problematisch für den Index sind vor allem Dateien mit:
+### 2. Projektdateien herunterladen
+Projektdateien herunterladen und in den Projektordner entzippen  
 
-     - wiederholten Zeitschriften- oder PDF-Kopfzeilen 
-     - vielen Seitenmarkierungen mitten im Fließtext
-     - abgeschnittenen oder künstlich getrennten Wörtern
-     - langen bibliografischen Blöcken ohne Relevanz für die spätere Nutzung
-     - stark vermischtem Layouttext statt zusammenhängendem Inhalt
+### 3. Python installieren 
+Herunterladen von https://www.python.org/downloads (getestet wurde mit Python 3.11, und Python 3.13) und installieren 
 
-     Für gute Retrieval-Ergebnisse gilt daher:
-     ***Lieber ein leicht bereinigtes, gut lesbares Markdown-Dokument als eine rohe 1:1-Extraktion aus dem PDF.***
+### 4. Ollama installieren (https://ollama.com)
+Ollama herunterladen und installieren  
 
-      Das PDF bleibt weiterhin als Originalquelle wichtig. Für die inhaltliche Verarbeitung im Index ist jedoch die Qualität der Markdown-Datei entscheidend.
+### 5. Virtuelle Umgebung anlegen
+Nur falls noch keine `.venv` vorhanden ist, im Eingabefenster z. B. mit `cd C:\Users\andre\student-course-ai` in den Projektordner wechseln und `py -3.11 -m venv .venv` (oder mit Python 3.13 - damit wurde das Modell erfolgreich getestet) eingeben  
 
-     ***Erhalten sollten z.B. folgende Seitenangaben bleiben:***
-    `<!-- PAGE:4 -->` bzw. `### Seite 4`
-
-13. Backend starten mit `.venv\Scripts\python.exe -m uvicorn app.main:app --reload`
-14. Streamlit starten mit `.venv\Scripts\python.exe -m streamlit run app\ui\streamlit_app.py`
-15. App im Browser öffnen und Modi testen und bei Bedarf anpassen (die Metaprompts aber auch z. B. die Temperatur lässt sich in der config.yaml Datei anpassen)
-
-## Typischer Workflow mit Befehlen
-### 1. Projektordner öffnen
-cd C:\Users\andre\student-course-ai
-
-### 2 Python installieren 
-Herunterladen von https://www.python.org/downloads (getestet wurde mit Python 3.11, und Python 3.14).
-
-### 3. Virtuelle Umgebung anlegen
-Nur falls noch keine `.venv` vorhanden ist:  
-py -3.11 -m venv .venv (oder mit Python 3.13 - damit wurde das Modell erfolgreich getestet)
-
-### 4. Abhängigkeiten installieren
+### 5. Abhängigkeiten installieren
 .venv\Scripts\python.exe -m pip install --upgrade pip     
 .venv\Scripts\pip.exe install -r requirements.txt  
 
-### 5. Modelle herunterladen (von https://ollama.com/library/)
+### 6. Modelle herunterladen (von https://ollama.com/library/)
 Beispiel:  
-ollama pull mistral-nemo:12b (bester Kompromiss aus Geschwindigkeit und Qualität, wenn es auch auf einr GPU laufen kann)  
-ollama pull llama3.1:8b (gut, sprachlich schwächer als gemma3:27b)  
-ollama pull gemma3:27b (groß, sehr langsam)    
+`ollama pull mistral-nemo:12b` (bester Kompromiss aus Geschwindigkeit und Qualität, wenn es auch auf einr GPU laufen kann)  
+`ollama pull llama3.1:8b` (gut, sprachlich schwächer als gemma3:27b)  
+`ollama pull gemma3:27b` (groß, sehr langsam)    
 
 Für das embedding z.B.:  
-ollama pull mxbai-embed-large  
+`ollama pull mxbai-embed-large`  
 
 Wenn ich ein anderes Modell verwenden will, dann muss ich dieses in der config.yaml als chat_model eintragen. 
 
-### 6. Ollama prüfen oder starten
+### 7. Ollama prüfen oder starten
 Prüfen:  
-ollama list -> listet welche Modelle bereits lokal vorhanden sind
+`ollama list` -> listet welche Modelle bereits lokal vorhanden sind
 
 Falls nötig starten:  
-ollama serve
+`ollama serve`
 
-### 7. Original-PDFs ablegen
+### 8. Original-PDFs ablegen
 In:  
 text. 
 courses\demo_course\source_pdfs\
 
-### 8. `metadata.csv` ergänzen
+### 9. `metadata.csv` ergänzen
 Datei:
-text. 
 courses\demo_course\metadata.csv
 
-### 9. PDFs in Markdown umwandeln
-.venv\Scripts\python.exe scripts\pdfs_to_md_with_metadata.py
+### 10. PDFs in Markdown umwandeln
+`.venv\Scripts\python.exe scripts\pdfs_to_md_with_metadata.py`
 
 Vorhandene Markdown-Dateien überschreiben:  
-.venv\Scripts\python.exe scripts\pdfs_to_md_with_metadata.py --force
+`.venv\Scripts\python.exe scripts\pdfs_to_md_with_metadata.py --force`
 
-### 10. Alternative PDF-zu-Markdown-Skripte basierend auf MarkItDown (muss noch separat installiert werden)
-scripts/pdfs_to_md_alternative.py. 
+### ***11. Alternative PDF-zu-Markdown-Skripte basierend auf MarkItDown (muss noch separat installiert werden)***
+`scripts/pdfs_to_md_alternative.py` 
 Einige alternative Skripte zur Umwandlung von PDFs in Markdown basieren auf **MarkItDown**.  
 Diese Variante ist nicht Teil der Standardinstallation und erfordert eine separate Installation von markitdown.  
 Beispiel:
-py -m pip install "markitdown[all]". 
+`py -m pip install "markitdown[all]"` 
 Das pdfs_to_md_alternative.py file wird in den source_pdfs Ordner kopiert und über die Befehlseingabe aufgerufen. Dadurch werden die entsprechenden .md files kreiert, die dann in den materials Ordner kompiert werden.
 
 #### Mini-Checkliste für Markdown-Dateien vor dem Indexieren
@@ -213,10 +183,10 @@ courses\demo_course\materials\
 Reflexions-/Critical-Dateien nach:
 courses\demo_course\critical\
 
-### 11. Index bauen
-set PYTHONPATH=.
+### 12. Index bauen
+`set PYTHONPATH=.`
 
-.venv\Scripts\python.exe scripts\build_index.py --course demo_course  
+`.venv\Scripts\python.exe scripts\build_index.py --course demo_course`  
 
 Beim Index bauen geschieht das sog. **"Chunking"**, ist für die Qualität des Retrievals ist das zentral. Die in Einheiten zerlegten längerne Texte werde dabei eingebettet und in der Vektordatenbank gespeichert. Relevante Parameter sind insbesondere **chunk_size**, **chunk_overlap** und **top_k**. Diese Parameter sind in der ***config.yaml*** auf Ebene des Kurses definiert (chunk_size: standarddmäßig auf 1200, chunk_overlap: standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort): standardmäßig auf 4). Diese können je nach Material und "Auflösungstiefe" der Materialien angepasst werden. Zu große Chunks können die Suche unpräzise machen, zu kleine Chunks wichtige Zusammenhänge zerstören. Praktisch verbessert eine vorgängige Bereinigung der Materialien, etwa durch PDF-zu-Markdown-Konvertierung und das Anpassen der Markdown-Dateien hinsichtlich störender Fragmente, die Qualität der Ergebnisse deutlich.
 
@@ -226,37 +196,37 @@ Die App nutzt für Retrieval und Antwortgenerierung die aus PDFs erzeugten Markd
 
 #### ACHTUNG: wenn das embedding_model: mxbai-embed-large mehrmals heruntergeladen wurde, muss in der .yaml Datei mxbai-embed-large:latest verwendet werden. Die aktuelle Version kann mit dem Befehl: ollama list herausgelesen werden.
 
-### 12. Backend starten (erstes Eingabefenster - Windows-Taste und "R", dann cmd eintippen)
+### 13. Backend starten (erstes Eingabefenster - Windows-Taste und "R", dann cmd eintippen)
 Erstes Fenster öffen  
 
-cd C:\Users\andre\student-course-ai  
-.venv\Scripts\python.exe -m uvicorn app.main:app --reload
+`cd C:\Users\andre\student-course-ai`  
+`.venv\Scripts\python.exe -m uvicorn app.main:app --reload`
 
-### 13. Streamlit starten (zweites Eingabefenster, wiede Windows-Taste und "R", dann cmd eintippen)
+### 14. Streamlit starten (zweites Eingabefenster, wiede Windows-Taste und "R", dann cmd eintippen)
 In einem zweiten Fenster:
 
-cd C:\Users\andre\student-course-ai  
-.venv\Scripts\python.exe -m streamlit run app\ui\streamlit_app.py
+`cd C:\Users\andre\student-course-ai`   
+`.venv\Scripts\python.exe -m streamlit run app\ui\streamlit_app.py`
 
-### 14. App im Browser öffnen
-http://localhost:8501
+### 15. App im Browser öffnen
+`http://localhost:8501`
 
 ## Wann muss was neu gestartet werden 
 ### Nur `chat_model` in `config.yaml` geändert
 Dann reicht:
-.venv\Scripts\python.exe -m uvicorn app.main:app --reload. 
-.venv\Scripts\python.exe -m streamlit run app\ui\streamlit_app.py. 
+`.venv\Scripts\python.exe -m uvicorn app.main:app --reload`   
+`.venv\Scripts\python.exe -m streamlit run app\ui\streamlit_app.py` 
 
 ### Neue Materialien / neue `.md` / neuer `critical`-Text
 Dann erst neu indexieren:
-set PYTHONPATH=. 
-.venv\Scripts\python.exe scripts\build_index.py --course demo_kurs
+`set PYTHONPATH=.` 
+`.venv\Scripts\python.exe scripts\build_index.py --course demo_kurs`
 
 danach Backend und Streamlit neu starten.
 
 ### Nur Prompt geändert
 Dann meist nur Backend neu starten:  
-.venv\Scripts\python.exe -m uvicorn app.main:app --reload
+`.venv\Scripts\python.exe -m uvicorn app.main:app --reload`
 
 ## Mögliche Modelle für den lokalen Betrieb
 Für die lokale Nutzung erwies sich ein mittelgroßes Modell als besonders praktikabel, da es ein gutes Verhältnis zwischen Antwortqualität, Sprachkompetenz in Deutsch und Englisch sowie Verarbeitungsgeschwindigkeit bietet; kleinere Modelle sind für ressourcenschwächere Systeme interessant, größere Modelle eher für leistungsstärkere Rechner und qualitativ anspruchsvollere Szenarien. Auf https://ollama.com/library finden sich immer die neuesten verfügbaren Modelle.
@@ -298,20 +268,21 @@ Tabellarische Vergleichsdokumentation erstellen.
 ### Wie ändere ich das Modell?
 Wenn ich das Srachmodell ändern will, überprüfe ich zuerst, ob dieses schon installiert ist. 
 Das mache ich mit dem Befehl  
--> ollama list  
+-> `ollama list`  
 Falls nötig Ollama zuerst starten:  
--> ollama serve  
+-> `ollama serve`  
 Wenn das Modell nicht installiert ist, dann kannich ein Modell, das ich verwenden möchte von Ollama herunterladen.  
 Das mache ich mit dem Befehl:  
 -> ollama pull mistral-nemo:12b 
 Schlussendlich, muss ich dieses in der config.yaml als chat_model eintragen. Fertig.
+
 ### Wie ändere ich die Parameter des Chunking und die Temperatur?
 Diese Parameter sind in der config.yaml abgelegt, und können dort angepasst werden. Die chunk_size ist standarddmäßig auf 2000, chunk_overlap standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort) standardmäßig auf 4 gesetzt. 
 Ebenfalls in der config.yaml ist die Temperatur des Modells angegeben. 
 #### Darstellung der Einstellungen in `config.yaml`
 ```yaml
 Die kursbezogene Konfiguration liegt in:
-courses/demo_kurs/config.yaml
+`courses/demo_kurs/config.yaml`
 ````
 Dort können zentrale Parameter der App angepasst werden.
 
