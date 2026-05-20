@@ -163,72 +163,72 @@ Beispiel:
 `py -m pip install "markitdown[all]"` 
 Das pdfs_to_md_alternative.py file wird in den source_pdfs Ordner kopiert und über die Befehlseingabe aufgerufen. Dadurch werden die entsprechenden .md files kreiert, die dann in den materials Ordner kompiert werden.
 
-#### Mini-Checkliste für Markdown-Dateien vor dem Indexieren
-Vor dem Indexieren kann kurz geprüft werden, ob eine Markdown-Datei als gute Grundlage für die KI-Suche geeignet ist.
-#### Ja/Nein-Check
+#### Mini-Checkliste für Markdown-Dateien vor dem Indexieren  
+Vor dem Indexieren kann kurz geprüft werden, ob eine Markdown-Datei als gute Grundlage für die KI-Suche geeignet ist.  
 
-- Ist der Text für Menschen gut lesbar?
-- Gibt es klare Überschriften und sinnvolle Abschnitte?
-- Enthält die Datei möglichst wenig Seitenzahlen, Punktlinien oder Inhaltsverzeichnis-Reste?
-- Gibt es keine störenden Literatur- oder Fußnotenfragmente mitten im Fließtext?
-- Sind kaputte Worttrennungen und seltsame Leerzeichen weitgehend bereinigt?
-- Enthält die Datei keine unnötigen Layout-, Tabellen- oder Lizenzreste?
-- Sind die Abschnitte inhaltlich zusammenhängend und nicht nur lose Fragmente?
-- Würde ich wollen, dass die KI genau diesen Abschnitt als Antwortgrundlage verwendet?
+#### Ja/Nein-Check  
+- Ist der Text für Menschen gut lesbar?  
+- Gibt es klare Überschriften und sinnvolle Abschnitte?  
+- Enthält die Datei möglichst wenig Seitenzahlen, Punktlinien oder Inhaltsverzeichnis-Reste?  
+- Gibt es keine störenden Literatur- oder Fußnotenfragmente mitten im Fließtext?  
+- Sind kaputte Worttrennungen und seltsame Leerzeichen weitgehend bereinigt?  
+- Enthält die Datei keine unnötigen Layout-, Tabellen- oder Lizenzreste?  
+- Sind die Abschnitte inhaltlich zusammenhängend und nicht nur lose Fragmente?  
+- Würde ich wollen, dass die KI genau diesen Abschnitt als Antwortgrundlage verwendet?  
   
-#### Faustregel
-Wenn mehrere Fragen mit **Nein** beantwortet werden, sollte die Datei vor dem Indexieren noch bereinigt oder in kleinere, klarere Einheiten aufgeteilt werden.
+#### Faustregel  
+Wenn mehrere Fragen mit **Nein** beantwortet werden, sollte die Datei vor dem Indexieren noch bereinigt oder in kleinere, klarere Einheiten aufgeteilt werden.  
 
-### 12. Zusätzliche Materialien ergänzen
-Inhaltliche Materialien als  .md-Dateien nach:
+### 12. Zusätzliche Materialien ergänzen  
+Inhaltliche Materialien als  .md-Dateien nach:  
 `courses\demo_course\materials\`
 
-Reflexions-/Critical-Dateien nach:
+Reflexions-/Critical-Dateien nach:  
 `courses\demo_course\critical\`
 
-### 13. Index bauen
+### 13. Index bauen  
 Index in einem weiteren Eingabefenster bauen (**WICHTIG: Ollama muss in einem anderen Eingabfenster gestartet worden sein laufen - kann mit Ollama list** gestest werden **UND** das **richtige Sprachmodell muss in `config.yaml`** eingetragen sein, man kann auch die Chunking Parameter anpassen, siehe mehr Informationen unten im Text).  
 
-`set PYTHONPATH=.`
+`set PYTHONPATH=.`  
 
-`.venv\Scripts\python.exe scripts\build_index.py --course demo_course`  
+`.venv\Scripts\python.exe scripts\build_index.py --course demo_course`   
 
-**WICHTIG: die Markdown-Dateien MÜSSEN bereinigt sein!**
+**WICHTIG: die Markdown-Dateien MÜSSEN bereinigt sein!**  
 
-***Hinweis: Woran erkennt man ein gutes Markdown-Dokument für den Index?***
-Nicht jede aus einem PDF erzeugte `.md`-Datei ist automatisch gut für Retrieval und Embeddings geeignet. Für einen stabilen lokalen Index ist es hilfreich, die Markdown-Dateien vor dem Einlesen grob zu prüfen und bei Bedarf zu bereinigen.
+***Hinweis: Woran erkennt man ein gutes Markdown-Dokument für den Index?***  
+Nicht jede aus einem PDF erzeugte `.md`-Datei ist automatisch gut für Retrieval und Embeddings geeignet. Für einen stabilen lokalen Index ist es hilfreich, die Markdown-Dateien vor dem Einlesen grob zu prüfen und bei Bedarf zu bereinigen.  
 
 Das PDF bleibt weiterhin als Originalquelle wichtig. Für die inhaltliche Verarbeitung im Index ist jedoch die Qualität der Markdown-Datei entscheidend.
-***Erhalten sollten für den späteren Verweis auf die richtigen Seiten im pdf z.B. folgende Seitenangaben bleiben:***
+***Erhalten sollten für den späteren Verweis auf die richtigen Seiten im pdf z.B. folgende Seitenangaben bleiben:***  
     `<!-- PAGE:4 -->` bzw. `### Seite 4`
 
-***Ein gutes Markdown-Dokument für den Index hat in der Regel folgende Eigenschaften:***
-     - der **eigentliche Fachtext** steht im Vordergrund
-     - **Kopf- und Fußzeilen** aus dem PDF wiederholen sich nicht ständig
-     - es gibt möglichst wenig **Layout-Artefakte** wie Hefttitel, Download-Hinweise oder Seitennummern mitten im Text
-     - **Worttrennungen** aus dem PDF wurden möglichst bereinigt
-     - Überschriften und Abschnitte sind **klar strukturiert**
-     - unnötige Blöcke wie lange Verlagshinweise oder irrelevante Metadaten wurden entfernt 
+***Ein gutes Markdown-Dokument für den Index hat in der Regel folgende Eigenschaften:***  
+     - der **eigentliche Fachtext** steht im Vordergrund  
+     - **Kopf- und Fußzeilen** aus dem PDF wiederholen sich nicht ständig  
+     - es gibt möglichst wenig **Layout-Artefakte** wie Hefttitel, Download-Hinweise oder Seitennummern mitten im Text  
+     - **Worttrennungen** aus dem PDF wurden möglichst bereinigt  
+     - Überschriften und Abschnitte sind **klar strukturiert**  
+     - unnötige Blöcke wie lange Verlagshinweise oder irrelevante Metadaten wurden entfernt  
  
-***Problematisch für den Index sind vor allem Dateien mit***:
-     - wiederholten Zeitschriften- oder PDF-Kopfzeilen 
-     - vielen Seitenmarkierungen mitten im Fließtext
-     - abgeschnittenen oder künstlich getrennten Wörtern
-     - langen bibliografischen Blöcken ohne Relevanz für die spätere Nutzung
-     - stark vermischtem Layouttext statt zusammenhängendem Inhalt
+***Problematisch für den Index sind vor allem Dateien mit***:  
+     - wiederholten Zeitschriften- oder PDF-Kopfzeilen  
+     - vielen Seitenmarkierungen mitten im Fließtext  
+     - abgeschnittenen oder künstlich getrennten Wörtern  
+     - langen bibliografischen Blöcken ohne Relevanz für die spätere Nutzung  
+     - stark vermischtem Layouttext statt zusammenhängendem Inhalt  
 
-Für gute Retrieval-Ergebnisse gilt daher:       
-***Lieber ein leicht bereinigtes, gut lesbares Markdown-Dokument als eine rohe 1:1-Extraktion aus dem PDF.***
+Für gute Retrieval-Ergebnisse gilt daher:  
+***Lieber ein leicht bereinigtes, gut lesbares Markdown-Dokument als eine rohe 1:1-Extraktion aus dem PDF.***  
 
-Beim Index bauen geschieht das sog. **"Chunking"**, ist für die Qualität des Retrievals ist das zentral. Die in Einheiten zerlegten längerne Texte werde dabei eingebettet und in der Vektordatenbank gespeichert. Relevante Parameter sind insbesondere **chunk_size**, **chunk_overlap** und **top_k**. Diese Parameter sind in der ***config.yaml*** auf Ebene des Kurses definiert (chunk_size: standarddmäßig auf 1200, chunk_overlap: standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort): standardmäßig auf 4). Diese können je nach Material und "Auflösungstiefe" der Materialien angepasst werden. Zu große Chunks können die Suche unpräzise machen, zu kleine Chunks wichtige Zusammenhänge zerstören. Praktisch verbessert eine vorgängige Bereinigung der Materialien, etwa durch PDF-zu-Markdown-Konvertierung und das Anpassen der Markdown-Dateien hinsichtlich störender Fragmente, die Qualität der Ergebnisse deutlich.
+Beim Index bauen geschieht das sog. **"Chunking"**, ist für die Qualität des Retrievals ist das zentral. Die in Einheiten zerlegten längerne Texte werde dabei eingebettet und in der Vektordatenbank gespeichert. Relevante Parameter sind insbesondere **chunk_size**, **chunk_overlap** und **top_k**. Diese Parameter sind in der ***config.yaml*** auf Ebene des Kurses definiert (chunk_size: standarddmäßig auf 1200, chunk_overlap: standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort): standardmäßig auf 4). Diese können je nach Material und "Auflösungstiefe" der Materialien angepasst werden. Zu große Chunks können die Suche unpräzise machen, zu kleine Chunks wichtige Zusammenhänge zerstören. Praktisch verbessert eine vorgängige Bereinigung der Materialien, etwa durch PDF-zu-Markdown-Konvertierung und das Anpassen der Markdown-Dateien hinsichtlich störender Fragmente, die Qualität der Ergebnisse deutlich.  
 
 Ebenfalls in der ***config.yaml*** ist die **Temperatur** des Modells angegeben. Die Temperatur steuert, wie eng ein Sprachmodell am bereitgestellten Material und an naheliegenden Formulierungen bleibt: Niedrige Werte führen in der Regel zu stärker materialgebundenen, stabileren Antworten, während höhere Werte eher zu freieren und weniger eng am Kontext orientierten Ausgaben führen. Standardmäßig ist die Temperatur auf 0.2 eingestellt, was bedeutet, dass die Ausgaben in der Regel stärker am bereitgestellten Material orientiert sind und konsistente Antworten mit nüchternen Formulierungen ausgegeben werden und somit weniger kreative Ausschmückung und Halluzinationen beinhalten. Es werden auch bei mehreren Abfragen weniger zufällige Varianten erzeugt. Dies ist bevorzugt wenn auf Quellenbezug und den Inhalt der bereitgestellten Materialien wert gelegt wird.  
 
-Die App nutzt für Retrieval und Antwortgenerierung die aus PDFs erzeugten Markdown-Dateien. Diese werden in Chunks zerlegt und zusammen mit Metadaten wie Original-PDF und Seitenbereich indexiert. Dadurch kann die App inhaltlich auf dem Markdown-Text arbeiten und zugleich per Link auf die passende Stelle im ursprünglichen PDF verweisen.
+Die App nutzt für Retrieval und Antwortgenerierung die aus PDFs erzeugten Markdown-Dateien. Diese werden in Chunks zerlegt und zusammen mit Metadaten wie Original-PDF und Seitenbereich indexiert. Dadurch kann die App inhaltlich auf dem Markdown-Text arbeiten und zugleich per Link auf die passende Stelle im ursprünglichen PDF verweisen.  
 
-#### ACHTUNG: wenn das embedding_model: mxbai-embed-large mehrmals heruntergeladen wurde, muss in der .yaml Datei mxbai-embed-large:latest verwendet werden. Die aktuelle Version kann mit dem Befehl: ollama list herausgelesen werden.
+#### ACHTUNG: wenn das embedding_model: mxbai-embed-large mehrmals heruntergeladen wurde, muss in der .yaml Datei mxbai-embed-large:latest verwendet werden. Die aktuelle Version kann mit dem Befehl: ollama list herausgelesen werden.  
 
-### 14. Backend starten (erstes Eingabefenster - Windows-Taste und "R", dann cmd eintippen)
+### 14. Backend starten (erstes Eingabefenster - Windows-Taste und "R", dann cmd eintippen)  
 Erstes Fenster öffen  
 
 `cd C:\Users\andre\student-course-ai`  
