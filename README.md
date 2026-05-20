@@ -68,8 +68,9 @@ courses\demo_course\source_pdfs\
 courses\demo_course\materials\
 
 ### Reflexions- und Zusatztexte
-courses\demo_course\critical\
-### Metadaten
+courses\demo_course\critical\  
+
+### Metadaten für pdfs  
 courses\demo_course\metadata.csv
 
 ### Konfiguration für Modellparameter
