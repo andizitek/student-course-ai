@@ -3,18 +3,6 @@ Ein lokaler RAG-basierter KI-Chatbot als datenschutzfreundliche Lernumgebung fü
 
 Das Projekt verbindet lokale LLM-Nutzung, kursbezogene Materialerschließung mittels RAG-System, didaktische Interaktionsmodi und einfache Learning Analytics zu einer datenschutzfreundlichen Lernumgebung für Studium und Lehre. Als Erweiterung wird die Möglichkeit eines fachspezifischen Finetunings eines Mistral-Modells vorgestellt.
 
-## Praktische Einrichtung - Kurzbeschreibung (Details weiter unten)
-1. Zuerst alle Ordner herunterladen (oben auf Code gehen, Download ZIP auswählen und alle Dateien herunterladen. Danach lokal unter Benutzer entzippen).
-2. Danach die App-files in einen Ordner mit dem Namen student-course-ai kopieren.  
-5. Danach Installation von Python 3.11 oder 3.13 (getestet, https://www.python.org/downloads)
-6. Danach Intallation von Ollama (mit Kommando in Eingabefenster, s.u.) 
-7. Danach Installation der Projektabhängigkeiten
-8. Danach können Materalien in **source_pdfs** oder Markdown-Dateien direkt in **materials** gelegt werden.
-9. Zusätzlich können die Files für die spätere Überführung in das Rag in der **metadata.csv-Datei** beschrieben werden
-10. Anschließend werden die Original-PDFs aus dem Quellordner über eine Metadaten-Datei (**metadata.csv**) und in Markdown überführt. Zusätzliche fachliche und reflexive Materialien können in eigenen Ordnern ergänzt werden.  
-11. Danach werden die Materialien gechunkt, eingebettet und in einer Vektordatenbank indexiert (**build index**).
-12. Erst auf dieser Grundlage werden Backend und Benutzeroberfläche gestartet und für unterschiedliche Modi nutzbar gemacht. Weiter unten findet sich der typische Workflow in Einzelschritten abgebildet.
-
 **Strukturelle Gliederung.**
 Die Materialien der App sind in mehrere Bereiche gegliedert: Originalquellen liegen in einem PDF-Ordner vor, fachliche Kursmaterialien werden in einem Materialordner als Markdown aufbereitet, und zusätzliche Reflexions- und Orientierungstexte können in einem eigenen Critical-Ordner hinterlegt werden. Ergänzt wird dies durch Konfigurations-, Prompt- und Metadatendateien. Die App arbeitet mit verschiedenen Modi, die von Erklärung, Zusammenfassung und Quiz über Gruppenarbeit und Peer-Review bis hin zu kritischer KI-Reflexion und der Strukturierung kollaborativer Arbeitsprozesse reichen.
 
@@ -26,7 +14,7 @@ Zuerst werden, wie beschrieben, die Ordner und die notwendigen Dateien installie
 Arbeitsspeicher (RAM) und Grafikspeicher (VRAM) sind getrennte Ressourcen. Für funktionale lokale Modelle kann ein Rechner mit **16 -32 GB RAM** auch ohne starke GPU ausreichen, dann allerdings oft mit längeren Antwortzeiten. Wenn eine dedizierte GPU genutzt wird, sind etwa **6–8 GB VRAM** ein brauchbarer Einstieg, während **10–12 GB** oder mehr das Arbeiten mit größeren Modellen deutlich erleichtern. Das Modell ***mistral-nemo:12b*** funktionierte mit **32 GB RAM und 12 GB VRAM** auch für MC-Quizzes schnell und sprachlich qualitativ gut. ***Mehr darüber, welche Optionen es mit Mistral für lokale Anwendungen gibt, finden sich hier: https://getdeploying.com/guides/local-mistral.***
 
 ## Benötigter lokaler Speicherplatz
-Neben RAM und gegebenenfalls VRAM ist auch ausreichender freier Speicherplatz erforderlich. Als grobe Untergrenze erscheinen etwa 15-30 GB sinnvoll; bei mehreren lokalen Modellen, umfangreicheren Materialsammlungen oder mehreren Kursindizes können mehr als 30 GB notwendig sein.
+Neben RAM und gegebenenfalls VRAM ist auch ausreichender freier Speicherplatz erforderlich. Als grobe Untergrenze erscheinen etwa **20-30 GB Speicherplatz** sinnvoll; bei mehreren lokalen Modellen, umfangreicheren Materialsammlungen oder mehreren Kursindizes können **mehr als 30 GB** notwendig sein.
 
 ## Projektstruktur
 ```text
