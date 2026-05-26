@@ -117,9 +117,9 @@ Beispiel:
 `ollama pull gemma3:27b` (groß, sehr langsam)    
 
 Für das embedding z.B.:  
-`ollama pull mxbai-embed-large`  
+`ollama pull mxbai-embed-large` oder besser bei kleineren Chunks `ollama pull nomic-embed-text`
 
-Wenn ich ein anderes Modell verwenden will, dann muss ich dieses in der config.yaml als chat_model eintragen. 
+***WICHTIG: Wenn ich ein anderes Modell verwenden will, dann muss ich dieses in der config.yaml als chat_model eintragen.***
 
 ### 7. Ollama prüfen oder starten
 Prüfen:  
