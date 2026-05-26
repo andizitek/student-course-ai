@@ -115,7 +115,7 @@ Beispiel:
 `ollama pull mistral-nemo:12b` (bester Kompromiss aus Geschwindigkeit und Qualität, wenn es auch auf einr GPU laufen kann)  
 `ollama pull llama3.1:8b` (gut, sprachlich schwächer als gemma3:27b)  
 `ollama pull gemma3:27b` (groß, sehr langsam)
-`ollama pull gemma3:1b` oder `ollama pull llama3.2:1b` (klein, schnell, zum Testen - aber auch sehr eingeschränkt in der Promp- und Antwortgenauigkeit)
+`ollama pull gemma3:1b` oder `ollama pull llama3.2:1b` (klein, schnell, zum Testen - aber auch sehr eingeschränkt in der Promp- und Antwortgenauigkeit; auch JSON kann meist nicht ausgegeben werden)
 
 Für das embedding z.B.:  
 `ollama pull nomic-embed-text` (schneller, kleiner) oder `ollama pull mxbai-embed-large` (bessere Qualität)
