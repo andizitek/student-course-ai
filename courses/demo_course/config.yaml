@@ -5,7 +5,7 @@ language: de
 llm:
   provider: ollama
   chat_model: mistral-nemo:12b
-  embedding_model: mxbai-embed-large
+  embedding_model: nomic-embed-text
 
 retrieval:
   top_k: 4
