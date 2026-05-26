@@ -4,7 +4,7 @@ language: de
 
 llm:
   provider: ollama
-  chat_model: gemma3:12b
+  chat_model: mistral-nemo:12b
   embedding_model: mxbai-embed-large
 
 retrieval:
