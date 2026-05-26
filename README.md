@@ -117,9 +117,9 @@ Beispiel:
 `ollama pull gemma3:27b` (groß, sehr langsam)    
 
 Für das embedding z.B.:  
-`ollama pull mxbai-embed-large` oder besser bei kleineren Chunks `ollama pull nomic-embed-text`
+`ollama pull nomic-embed-text` (schneller, kleiner) oder `ollama pull mxbai-embed-large` (bessere Qualität)
 
-***WICHTIG: Wenn ich ein anderes Modell verwenden will, dann muss ich dieses in der config.yaml als chat_model eintragen.***
+***WICHTIG: Wenn ich ein anderes Modell verwenden will, dann muss ich dieses in der config.yaml als chat_model eintragen. Und wenn ich das Embedding-Modell ändere, muss ich den Index neu bauen.***
 
 ### 7. Ollama prüfen oder starten
 Prüfen:  
@@ -167,6 +167,8 @@ Vor dem Indexieren kann kurz geprüft werden, ob eine Markdown-Datei als gute Gr
 #### Faustregel  
 Wenn mehrere Fragen mit **Nein** beantwortet werden, sollte die Datei vor dem Indexieren noch bereinigt oder in kleinere, klarere Einheiten aufgeteilt werden.  
 
+#### TIP: mit einem Chatbot kann das Markdown-file automatisch bereinigt werden. Dabei unbedingt rechtliche Rahmenbedingungen des Uploads betrachten.
+
 ### 12. Zusätzliche Materialien ergänzen  
 Inhaltliche Materialien als  .md-Dateien nach:  
 `courses\demo_course\materials\`
@@ -208,13 +210,11 @@ Das PDF bleibt weiterhin als Originalquelle wichtig. Für die inhaltliche Verarb
 Für gute Retrieval-Ergebnisse gilt daher:  
 ***Lieber ein leicht bereinigtes, gut lesbares Markdown-Dokument als eine rohe 1:1-Extraktion aus dem PDF.***  
 
-Beim Index bauen geschieht das sog. **"Chunking"**, ist für die Qualität des Retrievals ist das zentral. Die in Einheiten zerlegten längerne Texte werde dabei eingebettet und in der Vektordatenbank gespeichert. Relevante Parameter sind insbesondere **chunk_size**, **chunk_overlap** und **top_k**. Diese Parameter sind in der ***config.yaml*** auf Ebene des Kurses definiert (chunk_size: standarddmäßig auf 1200, chunk_overlap: standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort): standardmäßig auf 4). Diese können je nach Material und "Auflösungstiefe" der Materialien angepasst werden. Zu große Chunks können die Suche unpräzise machen, zu kleine Chunks wichtige Zusammenhänge zerstören. Praktisch verbessert eine vorgängige Bereinigung der Materialien, etwa durch PDF-zu-Markdown-Konvertierung und das Anpassen der Markdown-Dateien hinsichtlich störender Fragmente, die Qualität der Ergebnisse deutlich.  
+Beim **Index bauen** geschieht das sog. **"Chunking"**, ist für die Qualität des Retrievals ist das zentral. Die in Einheiten zerlegten längerne Texte werde dabei eingebettet und in der Vektordatenbank gespeichert. Relevante Parameter sind insbesondere **chunk_size**, **chunk_overlap** und **top_k**. Diese Parameter sind in der ***config.yaml*** auf Ebene des Kurses definiert (chunk_size: standarddmäßig auf 1200, chunk_overlap: standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort): standardmäßig auf 4). Diese können je nach Material und "Auflösungstiefe" der Materialien angepasst werden. Zu große Chunks können die Suche unpräzise machen, zu kleine Chunks wichtige Zusammenhänge zerstören. Praktisch verbessert eine vorgängige Bereinigung der Materialien, etwa durch PDF-zu-Markdown-Konvertierung und das Anpassen der Markdown-Dateien hinsichtlich störender Fragmente, die Qualität der Ergebnisse deutlich.  
 
 Ebenfalls in der ***config.yaml*** ist die **Temperatur** des Modells angegeben. Die Temperatur steuert, wie eng ein Sprachmodell am bereitgestellten Material und an naheliegenden Formulierungen bleibt: Niedrige Werte führen in der Regel zu stärker materialgebundenen, stabileren Antworten, während höhere Werte eher zu freieren und weniger eng am Kontext orientierten Ausgaben führen. Standardmäßig ist die Temperatur auf 0.2 eingestellt, was bedeutet, dass die Ausgaben in der Regel stärker am bereitgestellten Material orientiert sind und konsistente Antworten mit nüchternen Formulierungen ausgegeben werden und somit weniger kreative Ausschmückung und Halluzinationen beinhalten. Es werden auch bei mehreren Abfragen weniger zufällige Varianten erzeugt. Dies ist bevorzugt wenn auf Quellenbezug und den Inhalt der bereitgestellten Materialien wert gelegt wird.  
 
-Die App nutzt für Retrieval und Antwortgenerierung die aus PDFs erzeugten Markdown-Dateien. Diese werden in Chunks zerlegt und zusammen mit Metadaten wie Original-PDF und Seitenbereich indexiert. Dadurch kann die App inhaltlich auf dem Markdown-Text arbeiten und zugleich per Link auf die passende Stelle im ursprünglichen PDF verweisen.  
-
-#### ACHTUNG: wenn das embedding_model: mxbai-embed-large mehrmals heruntergeladen wurde, muss in der .yaml Datei mxbai-embed-large:latest verwendet werden. Die aktuelle Version kann mit dem Befehl: ollama list herausgelesen werden.  
+Die App nutzt für Retrieval und Antwortgenerierung die aus PDFs erzeugten Markdown-Dateien. Diese werden in Chunks zerlegt und zusammen mit Metadaten wie Original-PDF und Seitenbereich indexiert. Dadurch kann die App inhaltlich auf dem Markdown-Text arbeiten und zugleich per Link auf die passende Stelle im ursprünglichen PDF verweisen.   
 
 ### 14. Backend starten (erstes Eingabefenster - Windows-Taste und "R", dann cmd eintippen)  
 Erstes Fenster öffen  
@@ -280,7 +280,7 @@ Nützlichkeit für eure Modi.
 ### Immer nur ein Modell in config.yaml z.B
 chat_model: mistral-nemo:12b 
 ## embedding_model in config.yaml bleibt gleich:
-embedding_model: mxbai-embed-large
+embedding_model: nomic-embed-text oder mxbai-embed-large
 ## Zeit messen und Qualität bewerten
 Tabellarische Vergleichsdokumentation erstellen.
 
@@ -297,7 +297,7 @@ Das mache ich mit dem Befehl:
 Schlussendlich, muss ich dieses in der config.yaml als chat_model eintragen. Fertig.
 
 ### Wie ändere ich die Parameter des Chunking und die Temperatur?
-Diese Parameter sind in der config.yaml abgelegt, und können dort angepasst werden. Die chunk_size ist standarddmäßig auf 2000, chunk_overlap standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort) standardmäßig auf 4 gesetzt. 
+Diese Parameter sind in der config.yaml abgelegt, und können dort angepasst werden. Die chunk_size ist standarddmäßig auf 1200, chunk_overlap standardmäßig auf 100 und top_k (als Anzahl der herangezogenen Chunks für eine Antwort) standardmäßig auf 4 gesetzt. 
 Ebenfalls in der config.yaml ist die Temperatur des Modells angegeben. 
 #### Darstellung der Einstellungen in `config.yaml`
 ```yaml
@@ -310,11 +310,11 @@ Dort können zentrale Parameter der App angepasst werden.
 ```yaml
 llm:
   chat_model: mistral-nemo:12b 
-  embedding_model: mxbai-embed-large
+  embedding_model: nomic-embed-text
 ```
 
 * `chat_model` bestimmt das verwendete Sprachmodell für die Antworten.
-* `embedding_model` bestimmt das Modell zur Einbettung und Suche in den Materialien.
+* `embedding_model` bestimmt das Modell zur Einbettung und Suche in den Materialien. **Wichtig: wenn dieses geändert wird, ist immer der Index neu zu bauen.**
 
 Wenn Antworten zu langsam sind, kann ein kleineres Chatmodell gewählt werden. Die Auswahl lokaler Modelle richtet sich nach den in Ollama installierten Modellen.
 
@@ -332,16 +332,17 @@ Diese Werte beeinflussen, wie gut relevante Textstellen gefunden und als Kontext
 
 ##### WICHTIG: Retrieval-Anpassung
 
-Für dieses Projekt wurde `top_k` direkt in `app/api/chat.py` auf `2` reduziert.
+`top_k` kann z.B. direkt in `app/api/chat.py` auf `2` reduziert werden.
 
 ###### Grund
-Mit höheren Werten (`3` oder `4`) wurde der Kontext für das Modell zu groß oder zu gemischt. Dadurch entstanden instabile oder unpassende Antworten.
+Mit höheren Werten (`3` oder `4`) kann der Kontext für das Modell zu groß oder zu gemischt werden, wodurch bei schwächeren Modellen instabile oder unpassende Antworten entstehen können.
 
 ###### Ergebnis
-`top_k=2` erwies sich als guter Kompromiss zwischen:
+`top_k=2` kann als guter Kompromiss zwischen:
 - ausreichend Kontext
 - stabileren Antworten
 - besserer Fokusierung des Modells
+gelten
 
 #### Antwortverhalten
 
@@ -358,11 +359,11 @@ response:
 
 ### Was muss nach einer Änderung neu gestartet werden?
 
-#### Nur `chat_model` oder `temperature` geändert
+#### Nur `chat_model` oder `temperature` geändert  
 
 Dann reicht in der Regel ein Neustart von Backend und Streamlit.
 
-#### `chunk_size`, `chunk_overlap` oder Materialien geändert
+#### `chunk_size`, `chunk_overlap`, `embedding_model` oder `Materialien` geändert  
 
 Dann muss der Index neu gebaut werden, da sich die Segmentierung oder der Materialbestand geändert hat.
 
@@ -541,7 +542,7 @@ Er soll nicht nur antworten, sondern auch sichtbar machen,
 
 ### `collaborative_work`
 Dieser Modus unterstützt die Strukturierung gemeinsamer Arbeitsprozesse.  
-Er hilft Gruppen dabei, Aufgaben in Teilaufgaben zu zerlegen, Rollen zu klären, Abhängigkeiten sichtbar zu machen und die Zusammenführung von Ergebnissen zu planen.
+Er hilft Gruppen dabei, Aufgaben in Teilaufgaben zu zerlegen, Aufgaben zu klären, Abhängigkeiten sichtbar zu machen und die Zusammenführung von Ergebnissen zu planen.
 
 **Geeignet für:**
 - Gruppenreferate
@@ -668,42 +669,6 @@ In `app/api/chat.py` wird festgelegt, aus welchen Bereichen der Kursdaten der Ko
 - Der Modus collaborative_work kann Materialien und Critical-Texte gemeinsam nutzen. Dabei werden Fachinhalt und Reflexions- bzw. Orientierungstexte zusammen verwendet, um Gruppen bei der Planung und Durchführung gemeinsamer Arbeit zu unterstützen.
 - Alle übrigen Modi greifen standardmäßig nur auf fachliche Materialien aus materials/ zu. Das bedeutet, dass ihre Antworten in erster Linie auf den inhaltlichen Kursmaterialien beruhen und keine zusätzlichen Reflexionstexte aus critical/ einbeziehen.
 
-Beispiel aus `app/api/chat.py`:
-
-```python
-if req.mode == "critical_ai_literacy":
-    hits = retrieve(
-        course_id=req.course_id,
-        question=req.question,
-        embedding_model=cfg["llm"]["embedding_model"],
-        top_k=max(2, min(cfg["retrieval"]["top_k"], 3)),
-        allowed_content_types=["material"],
-    )
-
-    critical_hits = retrieve(
-        course_id=req.course_id,
-        question=req.question,
-        embedding_model=cfg["llm"]["embedding_model"],
-        top_k=2,
-        allowed_content_types=["critical"],
-    )
-elif req.mode == "collaborative_work":
-    hits = retrieve(
-        course_id=req.course_id,
-        question=req.question,
-        embedding_model=cfg["llm"]["embedding_model"],
-        top_k=2,
-        allowed_content_types=["material", "critical"],
-    )
-else:
-    hits = retrieve(
-        course_id=req.course_id,
-        question=req.question,
-        embedding_model=cfg["llm"]["embedding_model"],
-        top_k=2,
-        allowed_content_types=["material"],
-    )
-```
 #### Zusätzliche Materialien für einen Modus hinzufügwn
 
 Wenn ein Modus zusätzliche Inhalte oder Reflexionstexte nutzen soll, können passende Markdown-Dateien ergänzt werden in:
