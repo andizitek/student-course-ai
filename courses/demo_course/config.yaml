@@ -9,7 +9,7 @@ llm:
 
 retrieval:
   top_k: 4
-  chunk_size: 800
+  chunk_size: 1200
   chunk_overlap: 100
 
 response:
